@@ -18,10 +18,10 @@ export function SectionCard({
 }) {
   return (
     <Card
-      bg="#1c1a52"
+      bg="#010918"
       textColor="#f3ead0"
       borderColor="#f0c860"
-      shadowColor="#0a0820"
+      shadowColor="#000000"
       className="!m-0 font-sans"
     >
       <header className="flex items-center gap-2 px-3 py-2 border-b-2 border-gold/40">

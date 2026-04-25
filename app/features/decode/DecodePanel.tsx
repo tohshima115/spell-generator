@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { Button, Input, TextArea } from "pixel-retroui";
 import { CopyButton } from "~/components/CopyButton";
 import { ErrorBanner } from "~/components/ErrorBanner";
-import { Field } from "~/components/Field";
 import { ParchmentCard } from "~/components/ParchmentCard";
 import { SectionCard } from "~/components/SectionCard";
 import {
@@ -37,24 +37,30 @@ export function DecodePanel() {
             <i className="pixelart-icons-font-edit text-lg" aria-hidden />
             呪文を入力してください
           </span>
-          <Field
+          <Input
             placeholder="ここに呪文を入力...（ひらがなで入力してください）"
             value={spell}
             onChange={(e) => setSpell(e.target.value)}
-            rows={3}
-            className="bg-[#fcfaf5] text-ink border-[#d4c6a8] placeholder:text-ink/40 shadow-inner"
+            bg="#fcfaf5"
+            textColor="#4a3520"
+            borderColor="#d4c6a8"
+            className="!m-0 w-full"
           />
         </label>
         <div className="mt-6 flex justify-center">
-          <button
+          <Button
             type="button"
             onClick={onUnseal}
             disabled={!spell.trim()}
-            className="bg-[#4a2e6b] border-2 border-night text-cream font-pixel inline-flex items-center gap-4 rounded-sm px-8 py-3 text-base tracking-[0.2em] shadow-md disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[#5a3a7b] transition-colors"
+            bg="#4a2e6b"
+            textColor="#f3ead0"
+            shadow="#0a0820"
+            borderColor="#f0c860"
+            className="!m-0 inline-flex items-center gap-4 font-pixel text-base tracking-[0.2em] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <i className="pixelart-icons-font-key text-gold text-xl" aria-hidden />
             呪文を解読する
-          </button>
+          </Button>
         </div>
         <ErrorBanner kind={errorKind} />
       </ParchmentCard>
@@ -81,7 +87,15 @@ export function DecodePanel() {
             </div>
           }
         >
-          <Field value={url} readOnly rows={2} />
+          <TextArea
+            value={url}
+            readOnly
+            rows={2}
+            bg="#1c1a52"
+            textColor="#f3ead0"
+            borderColor="#5a5cb8"
+            className="!m-0 w-full"
+          />
         </SectionCard>
       )}
     </div>

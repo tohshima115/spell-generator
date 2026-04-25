@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Button } from "pixel-retroui";
+import { Button, Input, TextArea } from "pixel-retroui";
 import { CopyButton } from "~/components/CopyButton";
 import { DictionaryList } from "~/components/DictionaryList";
 import { ErrorBanner } from "~/components/ErrorBanner";
-import { Field } from "~/components/Field";
 import { SectionCard } from "~/components/SectionCard";
 import { ParchmentCard } from "~/components/ParchmentCard";
 import {
@@ -40,12 +39,14 @@ export function EncodePanel() {
             <i className="pixelart-icons-font-edit text-lg" aria-hidden />
             URLを入力してください
           </span>
-          <Field
+          <Input
             placeholder="https://example.com/..."
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            rows={2}
-            className="bg-[#fcfaf5] text-ink border-[#d4c6a8] placeholder:text-ink/40 shadow-inner"
+            bg="#fcfaf5"
+            textColor="#4a3520"
+            borderColor="#d4c6a8"
+            className="!m-0 w-full"
           />
         </label>
         <p className="text-ink/80 mt-2 text-xs flex items-center gap-1 font-medium">
@@ -53,16 +54,20 @@ export function EncodePanel() {
           入力されたURLはブラウザ内でのみ処理され、サーバーに送信されることはありません。
         </p>
         <div className="mt-6 flex justify-center">
-          <button
+          <Button
             type="button"
             onClick={onCast}
             disabled={!url.trim()}
-            className="bg-[#1c2a5c] border-2 border-gold text-cream font-pixel inline-flex items-center gap-4 rounded-sm px-8 py-3 text-base tracking-[0.2em] shadow-md disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[#253673] transition-colors"
+            bg="#1c2a5c"
+            textColor="#f3ead0"
+            shadow="#0a0820"
+            borderColor="#f0c860"
+            className="!m-0 inline-flex items-center gap-4 font-pixel text-base tracking-[0.2em] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <i className="pixelart-icons-font-magic text-gold text-xl" aria-hidden />
             呪文を生成する
             <i className="pixelart-icons-font-magic text-gold text-xl" aria-hidden />
-          </button>
+          </Button>
         </div>
         <ErrorBanner kind={errorKind} />
       </ParchmentCard>
@@ -76,9 +81,15 @@ export function EncodePanel() {
       >
         {result ? (
           <>
-            <div className="bg-black/80 rounded-sm p-4 border border-night">
-              <Field value={result.spell} readOnly spellLook rows={5} className="border-none bg-transparent resize-none outline-none focus:ring-0" />
-            </div>
+            <TextArea
+              value={result.spell}
+              readOnly
+              rows={5}
+              bg="#1c1a52"
+              textColor="#f3ead0"
+              borderColor="#5a5cb8"
+              className="!m-0 w-full font-pixel text-lg tracking-[0.2em]"
+            />
             <p className="text-cream-dim mt-2 text-[11px]">
               {result.matchedNote
                 ? `辞書パターン: ${result.matchedNote}`
@@ -86,9 +97,15 @@ export function EncodePanel() {
             </p>
           </>
         ) : (
-          <div className="bg-black/60 text-cream-dim/60 font-pixel flex min-h-[7rem] items-center justify-center rounded-sm border border-night text-sm tracking-[0.2em]">
-            ここに呪文が表示されます
-          </div>
+          <TextArea
+            placeholder="ここに呪文が表示されます"
+            readOnly
+            rows={5}
+            bg="#1c1a52"
+            textColor="#f3ead0"
+            borderColor="#5a5cb8"
+            className="!m-0 w-full font-pixel text-sm tracking-[0.2em]"
+          />
         )}
         
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-gold/30 pt-4">

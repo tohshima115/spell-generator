@@ -23,8 +23,8 @@ export function Field({
           "border-border w-full resize-y rounded border-2 px-3 py-2 leading-relaxed transition-colors focus:outline-none",
           "focus:border-gold focus:ring-gold/40 focus:ring-2",
           spellLook
-            ? "bg-night font-pixel text-cream placeholder:text-cream-dim/40 min-h-[7rem] text-lg tracking-[0.2em]"
-            : "bg-night text-cream placeholder:text-cream-dim/55 min-h-[3.5rem] text-sm",
+            ? "bg-night-2 font-pixel text-cream placeholder:text-cream-dim/40 min-h-[7rem] text-lg tracking-[0.2em]"
+            : "bg-night-2 text-cream placeholder:text-cream-dim/55 min-h-[3.5rem] text-sm",
           className ?? "",
         ].join(" ")}
       />
