@@ -1,15 +1,182 @@
+/* レイヤー優先順位:
+   - retroui は base より上 (base 内の preflight `* { border: 0 }` に打ち消されないため)
+   - utilities は retroui より上 (Tailwind ユーティリティで margin/padding 等を上書き可能)
+   ただし retroui 同梱の `body { font-family: Minecraft }` も retroui レイヤーに入るので、
+   その分は下の非レイヤー rule で個別に打ち消す。 */
+@layer theme, base, retroui, components, utilities;
+
 @import "tailwindcss";
+@import "pixelarticons/fonts/pixelart-icons-font.css";
+@import "pixel-retroui/dist/index.css" layer(retroui);
+
+/* retroui の body フォント上書きを打ち消す。非レイヤー rule なので全レイヤーに勝つ。 */
+body {
+  font-family: var(--font-sans);
+}
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* タイトルは筆文字系明朝 (Yuji Mai)。本文はモダン。ピクセルは要所のみ */
+  --font-sans: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
+  --font-pixel: "DotGothic16", "Noto Sans JP", monospace;
+  --font-spell-title: "Yuji Mai", "Shippori Mincho", "Noto Serif JP", serif;
+
+  /* 紫を帯びた深い夜空。画像の背景に合わせる */
+  --color-night: #010918;
+  --color-night-2: #1c1a52;
+  --color-panel: #242463;
+  --color-panel-2: #2c2a73;
+  --color-panel-3: #383695;
+  --color-border: #5a5cb8;
+
+  /* 温かみある金/クリーム系 */
+  --color-gold: #f0c860;
+  --color-gold-2: #d8a838;
+  --color-cream: #f3ead0;
+  --color-cream-dim: #c9bea0;
+
+  /* 機能カード見出しのアンバー/温オレンジ */
+  --color-amber: #f0a040;
+  --color-amber-2: #d68028;
+
+  /* 羊皮紙色 (使い方ボタン等) */
+  --color-parch: #e8dcb8;
+  --color-parch-2: #d4c294;
+  --color-ink: #4a3520;
+
+  /* 朱 (エラー強調) */
+  --color-shu: #d94c3a;
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+@layer base {
+  html,
+  body {
+    @apply bg-night text-cream font-sans min-h-screen;
+  }
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+  ::selection {
+    @apply bg-gold text-night;
   }
 }
+
+/* 装飾的な筆文字タイトル */
+@utility font-spell-title {
+  font-family: var(--font-spell-title);
+  font-weight: 400;
+}
+
+/* DotGothic16はピクセル感を保つためスムージングを切る */
+@utility font-pixel {
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+}
+
+/* 星空のドット (CSSだけで軽量に表現) */
+@utility starfield {
+  background-color: var(--color-night);
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #ffffffcc, transparent 60%),
+    radial-gradient(1px 1px at 28% 42%, #ffffff99, transparent 60%),
+    radial-gradient(1px 1px at 47% 12%, #fff7c2cc, transparent 60%),
+    radial-gradient(1px 1px at 68% 28%, #ffffffaa, transparent 60%),
+    radial-gradient(1px 1px at 82% 8%, #ffffffcc, transparent 60%),
+    radial-gradient(1px 1px at 91% 36%, #ffffff88, transparent 60%),
+    radial-gradient(1px 1px at 6% 60%, #ffffff66, transparent 60%),
+    radial-gradient(1.5px 1.5px at 38% 70%, #fff7c299, transparent 60%),
+    radial-gradient(1px 1px at 73% 64%, #ffffff77, transparent 60%),
+    radial-gradient(1.5px 1.5px at 56% 88%, #ffffff88, transparent 60%);
+}
+
+/* ピクセル風の段付き枠 */
+@utility pixel-frame {
+  box-shadow:
+    0 0 0 2px var(--color-border),
+    0 4px 0 0 rgba(0, 0, 0, 0.45);
+}
+
+@utility pixel-frame-tight {
+  box-shadow: 0 0 0 2px var(--color-border);
+}
+
+/* 金プレート (プライマリボタン用) */
+@utility gold-plate {
+  background: linear-gradient(180deg, #ffe6a0 0%, var(--color-gold) 50%, var(--color-gold-2) 100%);
+  color: #3b2a06;
+  box-shadow:
+    inset 0 1px 0 #fff3b8,
+    inset 0 -2px 0 #a36b00,
+    0 0 0 2px #6b4500,
+    0 3px 0 0 rgba(0, 0, 0, 0.4);
+
+  &:hover {
+    background: linear-gradient(180deg, #fff0c0 0%, #ffd56a 50%, var(--color-gold) 100%);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow:
+      inset 0 1px 0 #fff3b8,
+      inset 0 -2px 0 #a36b00,
+      0 0 0 2px #6b4500,
+      0 1px 0 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* 羊皮紙プレート (使い方ボタン等のサブUI) */
+@utility parch-plate {
+  background: linear-gradient(180deg, var(--color-parch) 0%, var(--color-parch-2) 100%);
+  color: var(--color-ink);
+  box-shadow:
+    inset 0 1px 0 #fff5d8,
+    0 0 0 1.5px #8a6b3a,
+    0 2px 0 0 rgba(0, 0, 0, 0.35);
+
+  &:hover {
+    background: linear-gradient(180deg, #f5ecc8 0%, #ddc89c 100%);
+  }
+}
+
+/* 大判の羊皮紙シート (カード本体用)。
+   ベース色 + ベラム風ノイズ + 焼け込みの内側グロー + 影。
+   波打つ縁は ParchmentCard 側の ::before レイヤーに SVG filter で付与する。 */
+@utility parch-sheet {
+  position: relative;
+  isolation: isolate;
+  color: var(--color-ink);
+  background-color: #f7ecc8;
+  background-image:
+    url("data:image/png;base64,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");
+  background-blend-mode: multiply;
+  box-shadow:
+    inset 0 0 70px #8f5922,
+    inset 0 0 0 1px rgba(138, 107, 58, 0.5),
+    0 6px 24px rgba(0, 0, 0, 0.55);
+}
+
+/* くしゃっとした皺の表現。conic-gradient で四方の折り目を疑似的に。 */
+@utility parch-folds {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: conic-gradient(
+      #fff3,
+      #fff0 2% 24%,
+      #fff2 25%,
+      #4321 0,
+      #0000 27% 48%,
+      #9632 50%,
+      #fff2 0,
+      #fff0 52% 73%,
+      #9632 75%,
+      #fff3 0,
+      #fff0 78% 97%,
+      #9632
+    );
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+  }
+}
+
