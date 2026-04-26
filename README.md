@@ -69,7 +69,7 @@ npm run deploy
 
 | ファイル | 書き換え対象 |
 |---|---|
-| `app/config.ts` | `SITE_URL` / `SITE_TITLE` / `SITE_DESCRIPTION` / `SUPPORT_EMAIL` / `X_HANDLE` / `SHARE_HASHTAGS` / `SHARE_PREFIXES` |
+| `app/config.ts` | `SITE_URL` / `SITE_TITLE` / `SITE_DESCRIPTION` / `SUPPORT_EMAIL` / `X_HANDLE` / `SHARE_HASHTAGS` / `SHARE_PREFIXES` / `CF_WEB_ANALYTICS_TOKEN` (空文字にすると計測無効) |
 | `wrangler.jsonc` | `name` / `routes` |
 | `public/OGP.png` | OGP カード画像 (1200×600) |
 | `public/logo.png` / `favicon.*` / `bg.png` / `ribonn.png` | サイト固有の画像アセット |

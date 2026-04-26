@@ -8,15 +8,43 @@ export function ShareXButton({
   spell: string;
   className?: string;
 }) {
-  const onClick = () => {
+  const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!spell) return;
-    // X の intent は `text` と `url` を別パラメータで渡すと半角スペース区切りに
-    // なるため、改行で繋ぎたい本文と URL は単一の `text` にまとめて渡す。
+    e.preventDefault();
     const prefix = SHARE_PREFIXES[Math.floor(Math.random() * SHARE_PREFIXES.length)];
     const text = `${prefix}\n\n「${spell}」\n\n${SHARE_HASHTAGS}\n${SITE_URL}`;
-    const intent = new URL("https://x.com/intent/post");
+
+    // Android の X アプリは intent URL (x.com/intent/post, twitter.com/intent/tweet
+    // どちらも) を Deep Link で奪った後タイムライン/ログイン画面に飛ばす既知バグがある。
+    // Web Share API はシステム共有シート経由で X の ACTION_SEND ハンドラを叩くため
+    // Deep Link とは別経路で投稿画面が開く。モバイルはこちらを優先する。
+    //
+    // url フィールドを使うと X 投稿画面の先頭に空行が入る (X アプリ側が url 用の
+    // 行を予約している模様) ため、URL は text に含めて単一フィールドで渡す。
+    const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+    if (isMobile && typeof navigator.share === "function") {
+      try {
+        await navigator.share({ text });
+        return;
+      } catch (err) {
+        // ユーザーキャンセルは無視。それ以外は URL フォールバックに進む。
+        if ((err as Error)?.name === "AbortError") return;
+      }
+    }
+
+    // デスクトップ用フォールバック: Web Intent URL を新規タブで開く。
+    // `text` と `url` を別パラメータで渡すと半角スペース区切りになるため、
+    // 改行で繋ぎたい本文と URL は単一の `text` にまとめて渡す。
+    const intent = new URL("https://twitter.com/intent/tweet");
     intent.searchParams.set("text", text);
-    window.open(intent.toString(), "_blank", "noopener,noreferrer");
+    const a = document.createElement("a");
+    a.href = intent.toString();
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   };
 
   return (

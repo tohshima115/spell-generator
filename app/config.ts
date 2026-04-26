@@ -36,3 +36,12 @@ export const SHARE_PREFIXES = [
   "復活の呪文を聞くがよい…",
   "これぞ我が大事な呪文…",
 ];
+
+/**
+ * Cloudflare Web Analytics のサイトトークン。
+ * Cloudflare Dashboard → Web Analytics → Add a site で計測対象ホスト名
+ * (例: spell-generator.example.com) を登録すると発行されます。
+ * 空文字にするとビーコンタグは出力されません。fork して使う場合は
+ * 自身のトークンに書き換えるか空文字にしてください。
+ */
+export const CF_WEB_ANALYTICS_TOKEN = "50840bbcd6e74de18f15554e01f0bcab";
