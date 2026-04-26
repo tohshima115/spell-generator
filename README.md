@@ -1,87 +1,89 @@
-# Welcome to React Router!
+# 復活の呪文ジェネレーター
 
-A modern, production-ready template for building full-stack React applications using React Router.
+URL を「一見意味のないひらがな列」に可逆変換する Web ツール。
+ドラゴンクエストの「ふっかつのじゅもん」をモチーフに、URL ⇄ 64 ひらがな (DQ2 の対応表をそのまま流用した Base64 亜種) の双方向変換を提供します。
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+家族や同僚に画面を覗かれたくない URL を、ブックマークや Obsidian メモに「平文っぽいひらがな」として残しておくためのツールです。
 
-## Features
+```
+https://x.com/example/status/1234567890123456789
+            ↓ 唱える
+ぱとざ はみべ ひのぞご るかが
+            ↑ 解く
+```
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## 仕組み
 
-## Getting Started
+DQ2 の「ふっかつのじゅもん」が **64 種類のひらがな** で構成されていた事実 (1 文字 = 6bit の Base64 亜種、1986 年・RFC化前) に着想を得て、その対応表をそのまま流用しています。
 
-### Installation
+```
+URL 入力
+  ↓ 辞書マッチ (最長一致)
+[Version 1B] [Dict Token 2B] [ID Payload 可変長] [Checksum 1B]
+  ↓ Base64ひらがな変換 (3バイト → 4文字)
+  ↓ 3-3-4 リズムで半角スペース挿入
+ひらがな呪文
+```
 
-Install the dependencies:
+主要サイト (X, Pixiv, Fanza, DLsite ほか) は辞書登録されており、19 桁の X 投稿 ID は **18 ひらがな** にまで圧縮されます。
+
+## おことわり
+
+本プロジェクトは個人運営の **非公式・非営利のジョークツール** であり、株式会社スクウェア・エニックスおよび「ドラゴンクエスト」シリーズの公式とは一切関係ありません。著作権・商標その他の問題のあるご指摘をいただいた場合は、速やかに対応・該当箇所の削除をいたします。
+
+## 技術スタック
+
+- [React Router v7](https://reactrouter.com/) (SSR モード)
+- TypeScript / TailwindCSS / Vite
+- [Cloudflare Workers](https://workers.cloudflare.com/) (デプロイ先)
+- [pixel-retroui](https://www.npmjs.com/package/pixel-retroui) / [pixelarticons](https://pixelarticons.com/)
+
+## セットアップ
 
 ```bash
 npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+`http://localhost:5173` で起動。
 
-## Building for Production
-
-Create a production build:
+## テスト / 型チェック
 
 ```bash
-npm run build
+npm test            # vitest 実行 (1 回)
+npm run test:watch  # vitest ウォッチ
+npm run typecheck   # wrangler types + react-router typegen + tsc
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
+## デプロイ (Cloudflare Workers)
 
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+npm run deploy
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+`wrangler.jsonc` の `routes.pattern` を自分のドメインに書き換えてください。Custom Domain を使う場合は、Cloudflare で管理しているゾーンを指定する必要があります。
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+## fork して自分のサイトとして使う場合
 
-### DIY Deployment
+このリポジトリには作者個人のドメイン・連絡先が複数箇所に書かれています。fork した後、最低限以下を書き換えてください:
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+| ファイル | 書き換え対象 |
+|---|---|
+| `app/config.ts` | `SITE_URL` / `SITE_TITLE` / `SITE_DESCRIPTION` / `SUPPORT_EMAIL` / `X_HANDLE` / `SHARE_HASHTAGS` / `SHARE_PREFIXES` |
+| `wrangler.jsonc` | `name` / `routes` |
+| `public/OGP.png` | OGP カード画像 (1200×600) |
+| `public/logo.png` / `favicon.*` / `bg.png` / `ribonn.png` | サイト固有の画像アセット |
 
-Make sure to deploy the output of `npm run build`
+`app/config.ts` には全ての設定値が集約されているので、まずはそこから始めるのが早いです。
 
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
+## 辞書の追加
 
-## Styling
+`app/core/dictionary/v0.ts` の `DICT_V0_ENTRIES` に新しいエントリを追加すると、対応サイトを増やせます。エントリを追加した場合は `app/core/dictionary/registry.ts` のテストや既存の生成済み呪文との互換性に影響しないよう、新しい token id を末尾に追加する形にしてください。
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+辞書バージョンを上げる場合 (大幅な変更時)、`v0.ts` を残したまま `v1.ts` を追加して、`registry.ts` で複数バージョン参照する方針です。これにより過去の呪文も復号可能のまま保たれます。
 
----
+## ライセンス
 
-Built with ❤️ using React Router.
+[MIT License](./LICENSE) (ソースコードのみ)。
+
+`public/` 配下の画像アセット (`logo.png`, `OGP.png`, `bg.png`, `ribonn.png`, `favicon.*`) は MIT の対象外で、本プロジェクト独自のものです。fork の際は自分のアセットに差し替えてください。

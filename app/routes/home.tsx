@@ -1,13 +1,8 @@
+import { OGP_IMAGE, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "~/config";
 import { PageLayout } from "~/components/Layout";
 import { DecodePanel } from "~/features/decode/DecodePanel";
 import { EncodePanel } from "~/features/encode/EncodePanel";
 import type { Route } from "./+types/home";
-
-const SITE_URL = "https://spell-generetor.toyoshima.dev";
-const SITE_TITLE = "復活の呪文ジェネレーター";
-const SITE_DESCRIPTION =
-  "URL を 64 ひらがなの呪文に可逆変換するツール。あなただけの「復活の呪文」を生成して、大切な冒険の記録を守りましょう。";
-const OGP_IMAGE = `${SITE_URL}/OGP.png`;
 
 export function meta({}: Route.MetaArgs) {
   return [

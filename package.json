@@ -1,7 +1,28 @@
 {
   "name": "spell-generator",
+  "version": "0.1.0",
+  "description": "URL を 64 ひらがなの呪文に可逆変換する Web ツール (ドラゴンクエスト「ふっかつのじゅもん」モチーフ)",
   "private": true,
   "type": "module",
+  "license": "MIT",
+  "author": "toyoshima",
+  "homepage": "https://spell-generetor.toyoshima.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tohshima115/spell-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tohshima115/spell-generator/issues"
+  },
+  "keywords": [
+    "dragon-quest",
+    "spell",
+    "hiragana",
+    "url-shortener",
+    "base64",
+    "react-router",
+    "cloudflare-workers"
+  ],
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",

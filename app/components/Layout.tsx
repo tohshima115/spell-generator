@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
 import { Button, Card } from "pixel-retroui";
 import { ParchmentFilterDefs } from "./ParchmentCard";
-
-const X_PROFILE_URL = "https://x.com/toyoshima_dev";
-const SUPPORT_EMAIL = "support@toyoshima.dev";
+import { SUPPORT_EMAIL, X_HANDLE, X_PROFILE_URL } from "~/config";
 
 export function PageLayout({ children }: { children: ReactNode }) {
   return (
@@ -156,7 +154,7 @@ function DisclaimerCard() {
               >
                 <XLogo />
               </span>
-              開発者 @toyoshima_dev
+              開発者 @{X_HANDLE}
             </Button>
             <a
               href={`mailto:${SUPPORT_EMAIL}`}

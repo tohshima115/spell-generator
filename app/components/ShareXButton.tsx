@@ -1,12 +1,5 @@
 import { Button } from "pixel-retroui";
-
-const SITE_URL = "https://spell-generetor.toyoshima.dev";
-const HASHTAGS = "#復活の呪文ジェネレーター #ふっかつのじゅもん";
-const SHARE_PREFIXES = [
-  "私の復活の呪文を授けよう…",
-  "復活の呪文を聞くがよい…",
-  "これぞ我が大事な呪文…",
-];
+import { SHARE_HASHTAGS, SHARE_PREFIXES, SITE_URL } from "~/config";
 
 export function ShareXButton({
   spell,
@@ -20,7 +13,7 @@ export function ShareXButton({
     // X の intent は `text` と `url` を別パラメータで渡すと半角スペース区切りに
     // なるため、改行で繋ぎたい本文と URL は単一の `text` にまとめて渡す。
     const prefix = SHARE_PREFIXES[Math.floor(Math.random() * SHARE_PREFIXES.length)];
-    const text = `${prefix}\n\n「${spell}」\n\n${HASHTAGS}\n${SITE_URL}`;
+    const text = `${prefix}\n\n「${spell}」\n\n${SHARE_HASHTAGS}\n${SITE_URL}`;
     const intent = new URL("https://x.com/intent/post");
     intent.searchParams.set("text", text);
     window.open(intent.toString(), "_blank", "noopener,noreferrer");
