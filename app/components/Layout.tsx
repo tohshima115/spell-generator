@@ -44,35 +44,35 @@ function FeatureGrid() {
     title: string;
     body: string;
   }[] = [
-    {
-      icon: "pixelart-icons-font-shield",
-      title: "安全・安心",
-      body: "すべての処理はあなたのブラウザ内で完結。URLや呪文が外部に送信されることはありません。",
-    },
-    {
-      icon: "pixelart-icons-font-book-open",
-      title: "記録に最適",
-      body: "ブックマークやObsidian、メモ帳にそのまま保存可能。誰にもバレないあなただけの復活の呪文です。",
-    },
-    {
-      icon: "pixelart-icons-font-arrows-vertical",
-      title: "可逆変換",
-      body: "同じ呪文から、いつでも元のURLに戻すことができます。（※一文字でも違うと復元不可）",
-    },
-    {
-      icon: "pixelart-icons-font-drop-full",
-      title: "完全無料",
-      body: "登録不要・完全無料でずっと使えます。あなたの秘密を、しっかり守ります。",
-    },
-  ];
+      {
+        icon: "pixelart-icons-font-shield",
+        title: "安全・安心",
+        body: "すべての処理はあなたのブラウザ内で完結。URLや呪文が外部に送信されることはありません。",
+      },
+      {
+        icon: "pixelart-icons-font-notes",
+        title: "記録に最適",
+        body: "手書きのメモやパソコンのメモ帳にそのまま保存可能。ぱっと見でバレない復活の呪文です。",
+      },
+      {
+        icon: "pixelart-icons-font-arrows-vertical",
+        title: "可逆変換",
+        body: "同じ呪文から、いつでも元のURLに戻すことができます。（※一文字でも違うと復元不可）",
+      },
+      {
+        icon: "pixelart-icons-font-coin",
+        title: "完全無料",
+        body: "登録不要・完全無料でずっと使えます。",
+      },
+    ];
   return (
-    <section className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <section className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-4 sm:gap-6">
       {items.map((it) => (
         <Card
           key={it.title}
           bg="#0a0820"
           textColor="#c9bea0"
-          borderColor="#f0c860"
+          borderColor="#52423a"
           shadowColor="#000000"
           className="!m-0 font-pixel"
         >
@@ -99,7 +99,7 @@ function SmallNote() {
       <Card
         bg="#0a0820"
         textColor="#c9bea0"
-        borderColor="#f0c860"
+        borderColor="#52423a"
         shadowColor="#000000"
         className="!m-0 font-sans"
       >
@@ -162,6 +162,15 @@ function DisclaimerCard() {
             >
               <i className="pixelart-icons-font-mail text-gold text-base" aria-hidden />
               {SUPPORT_EMAIL}
+            </a>
+            <a
+              href="https://github.com/tohshima115/spell-generator"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-pixel text-cream-dim hover:text-cream inline-flex items-center gap-2 text-[11px] tracking-wider underline-offset-4 hover:underline"
+            >
+              <i className="pixelart-icons-font-github text-gold text-base" aria-hidden />
+              tohshima115/spell-generator
             </a>
           </div>
         </div>

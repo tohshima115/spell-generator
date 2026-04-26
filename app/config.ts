@@ -6,7 +6,7 @@
  */
 
 /** 公開サイトの URL (末尾スラッシュなし)。OGP の絶対 URL 生成にも使用。 */
-export const SITE_URL = "https://spell-generetor.toyoshima.dev";
+export const SITE_URL = "https://spell-generator.toyoshima.dev";
 
 /** ページタイトル / OG title / サイト名。 */
 export const SITE_TITLE = "復活の呪文ジェネレーター";

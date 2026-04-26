@@ -6,7 +6,7 @@
   "type": "module",
   "license": "MIT",
   "author": "toyoshima",
-  "homepage": "https://spell-generetor.toyoshima.dev",
+  "homepage": "https://spell-generator.toyoshima.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tohshima115/spell-generator.git"

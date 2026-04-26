@@ -20,7 +20,7 @@
   // `wrangler deploy` 実行時に Custom Domain が自動で構成される。
   "routes": [
     {
-      "pattern": "spell-generetor.toyoshima.dev",
+      "pattern": "spell-generator.toyoshima.dev",
       "custom_domain": true
     }
   ]
