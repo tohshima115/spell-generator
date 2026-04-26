@@ -72,10 +72,10 @@ function FeatureGrid() {
       {items.map((it) => (
         <Card
           key={it.title}
-          bg="#1c1a52"
-          textColor="#f3ead0"
+          bg="#0a0820"
+          textColor="#c9bea0"
           borderColor="#f0c860"
-          shadowColor="#0a0820"
+          shadowColor="#000000"
           className="!m-0 font-pixel"
         >
           <div className="flex flex-col items-center h-full p-3 text-center">
@@ -99,25 +99,21 @@ function SmallNote() {
   return (
     <div className="mt-6">
       <Card
-        bg="#1c1a52"
-        textColor="#f3ead0"
+        bg="#0a0820"
+        textColor="#c9bea0"
         borderColor="#f0c860"
-        shadowColor="#0a0820"
+        shadowColor="#000000"
         className="!m-0 font-sans"
       >
-        <div className="flex items-center gap-4 p-4 relative">
-          <div className="text-cream-dim min-w-0 flex-1 text-xs leading-relaxed">
-            <p className="font-pixel text-cream mb-1 text-[13px] tracking-wider font-bold">
-              ちいさなメモ
-            </p>
-            <p>
-              このツールは『ドラゴンクエストI』『ドラゴンクエストII』(1986〜87年・エニックス) に登場した「ふっかつのじゅもん」に着想を得たファンメイドのジョークツールです。<br />
-              大切な冒険の記録を、あなただけの呪文で守りましょう。
-            </p>
-          </div>
-          <div className="absolute right-4 bottom-4 opacity-80">
-            <i className="pixelart-icons-font-book-open text-gold text-3xl" aria-hidden />
-          </div>
+        <div className="p-4">
+          <p className="font-pixel text-cream mb-2 flex items-center gap-2 text-[13px] tracking-wider font-bold">
+            <i className="pixelart-icons-font-book-open text-gold text-lg" aria-hidden />
+            ちいさなメモ
+          </p>
+          <p className="text-cream-dim/90 text-[11px] leading-relaxed">
+            このツールは『ドラゴンクエストI』『ドラゴンクエストII』(1986〜87年・エニックス) に登場した「ふっかつのじゅもん」に着想を得たファンメイドのジョークツールです。<br />
+            大切な冒険の記録を、あなただけの呪文で守りましょう。
+          </p>
         </div>
       </Card>
     </div>
