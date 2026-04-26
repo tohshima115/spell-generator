@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { Button, Card } from "pixel-retroui";
-import { ParchmentFilterDefs } from "./ParchmentCard";
 import { SUPPORT_EMAIL, X_HANDLE, X_PROFILE_URL } from "~/config";
 
 export function PageLayout({ children }: { children: ReactNode }) {
@@ -9,9 +8,8 @@ export function PageLayout({ children }: { children: ReactNode }) {
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-25"
-        style={{ backgroundImage: "url('/bg.png')" }}
+        style={{ backgroundImage: "url('/bg.webp')" }}
       />
-      <ParchmentFilterDefs />
       <main className="relative z-10 mx-auto max-w-3xl px-4 pt-6 sm:px-6 sm:pt-8">
         <PageHeader />
         <div className="space-y-5">{children}</div>
@@ -29,7 +27,7 @@ function PageHeader() {
     <header className="relative mb-8 text-center">
       <h1 className="m-0">
         <img
-          src="/logo.png"
+          src="/logo.webp"
           alt="復活の呪文ジェネレーター — URLを、呪文に変えて守りましょう。"
           className="mx-auto h-auto w-full max-w-md drop-shadow-[0_2px_0_rgba(0,0,0,0.75)]"
         />
