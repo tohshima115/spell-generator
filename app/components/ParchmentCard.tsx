@@ -1,45 +1,41 @@
 import type { ReactNode } from "react";
 
+// /public/ribonn.png の実寸 (422×73)。aspect-ratio 算出用。
+const RIBBON_NATURAL_WIDTH = 422;
+const RIBBON_NATURAL_HEIGHT = 73;
+
 export function ParchmentCard({
   title,
   icon,
-  ribbonColor = "blue",
   children,
 }: {
   title: string;
   icon?: string;
-  ribbonColor?: "blue" | "purple";
   children: ReactNode;
 }) {
-  const ribbonBg = ribbonColor === "blue" ? "bg-panel-3" : "bg-[#5a3a7b]";
-  const ribbonBorder = ribbonColor === "blue" ? "border-border" : "border-[#7a5a9c]";
-  const ribbonTail = ribbonColor === "blue" ? "bg-panel-2" : "bg-[#4a2e6b]";
-
   return (
-    <section className="relative pt-6">
-      {/* Ribbon Header */}
-      <div className="absolute left-0 right-0 top-0 z-20 flex justify-center drop-shadow-md">
-        <div className={`relative flex items-center gap-2 border-y-2 px-8 py-2 text-center font-pixel text-lg tracking-[0.15em] text-cream ${ribbonBg} ${ribbonBorder}`}>
-          {/* Tails */}
-          <div
-            className={`absolute top-2 -left-3 -z-10 h-[calc(100%-8px)] w-6 border-y-2 ${ribbonTail} ${ribbonBorder}`}
-            style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%, 30% 50%)" }}
-          />
-          <div
-            className={`absolute top-2 -right-3 -z-10 h-[calc(100%-8px)] w-6 border-y-2 ${ribbonTail} ${ribbonBorder}`}
-            style={{ clipPath: "polygon(0 0, 100% 0, 70% 50%, 100% 100%, 0 100%)" }}
-          />
-          {/* Fold shadow */}
-          <div
-            className="absolute top-full left-0 h-2 w-3 bg-night"
-            style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%)" }}
-          />
-          <div
-            className="absolute top-full right-0 h-2 w-3 bg-night"
-            style={{ clipPath: "polygon(0 0, 0 100%, 100% 0)" }}
-          />
-          {icon && <i className={`${icon} text-amber text-lg`} aria-hidden />}
-          {title}
+    <section className="relative pt-10">
+      {/* Ribbon Header — public/ribonn.png をそのまま背景に使う。
+          画像は中央が羊皮紙パネル、両端が茶色の tail という構図のため、
+          タイトル文字列は中央パネル内に収まる程度の左右パディングをとる。
+          幅は親シートに対して相対指定し、aspect-ratio で画像本来の縦横比を維持。 */}
+      <div className="pointer-events-none absolute left-0 right-0 top-0 z-20 flex justify-center drop-shadow-md">
+        <div
+          className="relative flex items-center justify-center bg-no-repeat bg-center"
+          style={{
+            backgroundImage: "url(/ribonn.png)",
+            backgroundSize: "100% 100%",
+            width: "min(85%, 460px)",
+            aspectRatio: `${RIBBON_NATURAL_WIDTH} / ${RIBBON_NATURAL_HEIGHT}`,
+          }}
+        >
+          {/* タイトル/アイコン。リボン中央パネル内に収まるよう左右に余白。
+              リボン画像は中央パネルが視覚的にわずかに下寄りなので、
+              translate-y で文字を少し下げて見た目の中央に揃える。 */}
+          <span className="font-pixel text-ink relative z-10 flex translate-y-[2px] items-center justify-center gap-2 px-[10%] text-sm tracking-[0.15em] sm:text-base md:translate-y-[3px] md:text-lg lg:text-xl">
+            {icon && <i className={`${icon} text-ink/80 text-base md:text-lg lg:text-xl`} aria-hidden />}
+            {title}
+          </span>
         </div>
       </div>
 
@@ -50,7 +46,7 @@ export function ParchmentCard({
         <div
           aria-hidden
           className="parch-sheet parch-folds absolute inset-0"
-          style={{ filter: "url(#parch-wavy)" }}
+          style={{ filter: "url(#parch-wavy) url(#pixelate)" }}
         />
         {/* コンテンツ */}
         <div className="relative p-5 sm:p-7 text-ink">
@@ -87,8 +83,18 @@ export function ParchmentFilterDefs() {
             seed="7"
             result="noise"
           />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="24" />
         </filter>
+
+        {/* 羊皮紙背景レイヤー専用のピクセル化。4x4 セルで荒くドット風に。 */}
+        <filter id="pixelate" x="0" y="0" width="100%" height="100%">
+          <feFlood x="2" y="2" height="1" width="1" />
+          <feComposite width="4" height="4" />
+          <feTile result="tile" />
+          <feComposite in="SourceGraphic" in2="tile" operator="in" />
+          <feMorphology operator="dilate" radius="2" />
+        </filter>
+
       </defs>
     </svg>
   );

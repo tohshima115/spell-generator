@@ -9,16 +9,43 @@
 @import "pixelarticons/fonts/pixelart-icons-font.css";
 @import "pixel-retroui/dist/index.css" layer(retroui);
 
-/* retroui の body フォント上書きを打ち消す。非レイヤー rule なので全レイヤーに勝つ。 */
+/* retroui の body フォント上書きを打ち消す。非レイヤー rule なので全レイヤーに勝つ。
+   レトロ感を出すため全体をピクセルフォント (DotGothic16) で統一し、スムージングも切る。 */
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+  text-rendering: geometricPrecision;
+}
+
+/* ベース文字サイズを底上げしてドットを大きく見せる。
+   個別コンポーネントの text-xs / text-sm 等は相対比でそのまま効く。 */
+html {
+  font-size: 18px;
+}
+
+/* retroui の Button/Card/Input/TextArea 等が Minecraft フォントを直指定しているので上書き。
+   非レイヤー rule なので retroui layer に勝つ。 */
+button,
+input,
+textarea,
+select,
+[class*="Button-module__"],
+[class*="Card-module__"],
+[class*="Input-module__"],
+[class*="TextArea-module__"],
+[class*="Popup-module__"],
+[class*="Accordion-module__"],
+[class*="Dropdown-module__"] {
+  font-family: var(--font-pixel) !important;
 }
 
 @theme {
-  /* タイトルは筆文字系明朝 (Yuji Mai)。本文はモダン。ピクセルは要所のみ */
+  /* タイトル・本文ともにピクセルフォント (DotGothic16) で統一。 */
   --font-sans: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
   --font-pixel: "DotGothic16", "Noto Sans JP", monospace;
-  --font-spell-title: "Yuji Mai", "Shippori Mincho", "Noto Serif JP", serif;
+  --font-spell-title: "DotGothic16", "Noto Sans JP", monospace;
 
   /* 紫を帯びた深い夜空。画像の背景に合わせる */
   --color-night: #010918;
@@ -50,7 +77,7 @@ body {
 @layer base {
   html,
   body {
-    @apply bg-night text-cream font-sans min-h-screen;
+    @apply bg-night text-cream font-pixel min-h-screen;
   }
 
   ::selection {

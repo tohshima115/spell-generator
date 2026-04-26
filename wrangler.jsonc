@@ -1,0 +1,27 @@
+/**
+ * Cloudflare Workers 設定 — 復活の呪文ジェネレーター
+ * docs: https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "spell-generator",
+  "main": "./workers/app.ts",
+  "compatibility_date": "2026-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./build/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true
+  },
+  // toyoshima.dev は Cloudflare で管理されているゾーンを利用。
+  // `wrangler deploy` 実行時に Custom Domain が自動で構成される。
+  "routes": [
+    {
+      "pattern": "spell-generetor.toyoshima.dev",
+      "custom_domain": true
+    }
+  ]
+}

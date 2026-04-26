@@ -28,17 +28,17 @@ export function CopyButton({
       type="button"
       onClick={onClick}
       disabled={!text}
-      bg="#383695"
-      textColor="#f3ead0"
+      bg="#08111e"
+      textColor="#dec292"
       shadow="#0a0820"
-      borderColor="#5a5cb8"
+      borderColor="#52423a"
       className={[
-        "!m-0 inline-flex items-center gap-1 text-xs font-sans disabled:cursor-not-allowed disabled:opacity-40",
+        "!m-0 inline-flex w-full max-w-[180px] flex-1 basis-0 items-center justify-center gap-2 px-1 text-sm font-pixel tracking-wider disabled:cursor-not-allowed disabled:opacity-40 sm:px-3",
         className ?? "",
       ].join(" ")}
     >
       <i className="pixelart-icons-font-copy text-base" aria-hidden />
-      {copied ? "コピーしました" : label}
+      {copied ? "コピー完了" : label}
     </Button>
   );
 }

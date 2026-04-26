@@ -1,29 +1,34 @@
 import type { SpellErrorKind } from "~/core";
 
-const MESSAGES: Record<SpellErrorKind, string> = {
-  "invalid-chars": "呪文に使えない文字が含まれています",
-  "unknown-version": "この呪文は新しすぎてこのバージョンでは解けません",
-  "unknown-token": "この呪文の辞書エントリが見つかりません",
-  malformed: "呪文が壊れているようです",
-  checksum: "呪文に書き間違いがあります",
-  length: "呪文の長さが不正です",
-  payload: "ペイロードを処理できませんでした",
-};
+/**
+ * FC版ドラクエ1/2では、復活の呪文の入力が誤っているとき、原因によらず
+ * 画面中央の小さな白枠（紺背景・白文字）に「じゅもんが ちがいます」とのみ表示される。
+ * decode 時はこの挙動を忠実に再現する。
+ * encode (URL→呪文) 時は原作に対応する場面がないため、DQ風口調で別文を出す。
+ */
+const DECODE_MESSAGE = "じゅもんが　ちがいます";
+const ENCODE_MESSAGE = "そのURLでは　じゅもんを　つくれぬ";
 
-export const messageFor = (kind: SpellErrorKind): string => MESSAGES[kind];
+export type ErrorContext = "decode" | "encode";
 
-export function ErrorBanner({ kind }: { kind: SpellErrorKind | null }) {
+export const messageFor = (
+  _kind: SpellErrorKind,
+  context: ErrorContext = "decode",
+): string => (context === "encode" ? ENCODE_MESSAGE : DECODE_MESSAGE);
+
+export function ErrorBanner({
+  kind,
+  context = "decode",
+}: {
+  kind: SpellErrorKind | null;
+  context?: ErrorContext;
+}) {
   if (kind === null) return null;
   return (
-    <p
-      role="alert"
-      className="border-shu bg-shu/15 text-cream mt-2 flex items-center gap-2 rounded border-2 px-3 py-2 text-sm"
-    >
-      <i
-        className="pixelart-icons-font-alert text-shu text-lg"
-        aria-hidden
-      />
-      {messageFor(kind)}
-    </p>
+    <div className="mt-4 flex justify-center" role="alert" aria-live="polite">
+      <p className="font-pixel border-2 border-cream bg-[#0a1454] px-5 py-3 text-center text-base tracking-[0.18em] text-cream shadow-[0_4px_0_0_rgba(0,0,0,0.55)]">
+        {messageFor(kind, context)}
+      </p>
+    </div>
   );
 }

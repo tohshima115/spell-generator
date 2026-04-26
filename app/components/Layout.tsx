@@ -1,19 +1,25 @@
 import type { ReactNode } from "react";
-import { Card } from "pixel-retroui";
-import { CastleBackdrop } from "./CastleBackdrop";
+import { Button, Card } from "pixel-retroui";
 import { ParchmentFilterDefs } from "./ParchmentCard";
-import { SlimeMascot } from "./SlimeMascot";
+
+const X_PROFILE_URL = "https://x.com/toyoshima_dev";
+const SUPPORT_EMAIL = "support@toyoshima.dev";
 
 export function PageLayout({ children }: { children: ReactNode }) {
   return (
     <div className="starfield relative min-h-screen overflow-hidden pb-12">
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-25"
+        style={{ backgroundImage: "url('/bg.png')" }}
+      />
       <ParchmentFilterDefs />
-      <CastleBackdrop />
-      <main className="relative mx-auto max-w-3xl px-4 pt-6 sm:px-6 sm:pt-8">
+      <main className="relative z-10 mx-auto max-w-3xl px-4 pt-6 sm:px-6 sm:pt-8">
         <PageHeader />
         <div className="space-y-5">{children}</div>
         <FeatureGrid />
         <SmallNote />
+        <DisclaimerCard />
         <Footer />
       </main>
     </div>
@@ -22,32 +28,14 @@ export function PageLayout({ children }: { children: ReactNode }) {
 
 function PageHeader() {
   return (
-    <header className="relative mb-8 pt-24 text-center sm:pt-28">
-      <a
-        href="https://github.com/tohshima115/spell-generator#readme"
-        target="_blank"
-        rel="noreferrer noopener"
-        className="absolute right-0 top-2 inline-flex items-center gap-2 rounded-sm border-2 border-gold bg-night-2 px-3 py-1.5 text-xs font-pixel text-cream transition-colors hover:bg-panel"
-      >
-        <i className="pixelart-icons-font-book-open text-base text-gold" aria-hidden />
-        使い方
-      </a>
-      <h1
-        className="font-spell-title text-3xl tracking-[0.08em] drop-shadow-[0_2px_0_rgba(0,0,0,0.75)] sm:text-[42px]"
-        style={{
-          background:
-            "linear-gradient(180deg, #ffffff 0%, #f0c860 55%, #d8a838 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-          color: "transparent",
-        }}
-      >
-        復活の呪文ジェネレーター
+    <header className="relative mb-8 text-center">
+      <h1 className="m-0">
+        <img
+          src="/logo.png"
+          alt="復活の呪文ジェネレーター — URLを、呪文に変えて守りましょう。"
+          className="mx-auto h-auto w-full max-w-md drop-shadow-[0_2px_0_rgba(0,0,0,0.75)]"
+        />
       </h1>
-      <p className="text-gold mt-3 text-sm sm:text-base font-bold tracking-widest drop-shadow-[0_1px_0_rgba(0,0,0,0.8)]">
-        URLを、呪文に変えて守りましょう。
-      </p>
     </header>
   );
 }
@@ -69,7 +57,7 @@ function FeatureGrid() {
       body: "ブックマークやObsidian、メモ帳にそのまま保存可能。誰にもバレないあなただけの復活の呪文です。",
     },
     {
-      icon: "pixelart-icons-font-arrow-up-down",
+      icon: "pixelart-icons-font-arrows-vertical",
       title: "可逆変換",
       body: "同じ呪文から、いつでも元のURLに戻すことができます。（※一文字でも違うと復元不可）",
     },
@@ -88,7 +76,7 @@ function FeatureGrid() {
           textColor="#f3ead0"
           borderColor="#f0c860"
           shadowColor="#0a0820"
-          className="!m-0 font-sans"
+          className="!m-0 font-pixel"
         >
           <div className="flex flex-col items-center h-full p-3 text-center">
             <div className="mb-2 flex h-10 w-10 items-center justify-center">
@@ -110,32 +98,94 @@ function FeatureGrid() {
 function SmallNote() {
   return (
     <div className="mt-6">
-    <Card
-      bg="#1c1a52"
-      textColor="#f3ead0"
-      borderColor="#f0c860"
-      shadowColor="#0a0820"
-      className="!m-0 font-sans"
-    >
-      <div className="flex items-center gap-4 p-4 relative">
-        <div className="shrink-0">
-          <SlimeMascot size={56} />
+      <Card
+        bg="#1c1a52"
+        textColor="#f3ead0"
+        borderColor="#f0c860"
+        shadowColor="#0a0820"
+        className="!m-0 font-sans"
+      >
+        <div className="flex items-center gap-4 p-4 relative">
+          <div className="text-cream-dim min-w-0 flex-1 text-xs leading-relaxed">
+            <p className="font-pixel text-cream mb-1 text-[13px] tracking-wider font-bold">
+              ちいさなメモ
+            </p>
+            <p>
+              このツールは『ドラゴンクエストI』『ドラゴンクエストII』(1986〜87年・エニックス) に登場した「ふっかつのじゅもん」に着想を得たファンメイドのジョークツールです。<br />
+              大切な冒険の記録を、あなただけの呪文で守りましょう。
+            </p>
+          </div>
+          <div className="absolute right-4 bottom-4 opacity-80">
+            <i className="pixelart-icons-font-book-open text-gold text-3xl" aria-hidden />
+          </div>
         </div>
-        <div className="text-cream-dim min-w-0 flex-1 text-xs leading-relaxed">
-          <p className="font-pixel text-cream mb-1 text-[13px] tracking-wider font-bold">
-            ちいさなメモ
-          </p>
-          <p>
-            このツールはドラクエの「復活の呪文」からインスピレーションを受けています。<br/>
-            大切な冒険の記録を、あなただけの呪文で守りましょう。
-          </p>
-        </div>
-        <div className="absolute right-4 bottom-4 opacity-80">
-          <i className="pixelart-icons-font-drop-full text-blue-400 text-3xl" aria-hidden />
-        </div>
-      </div>
-    </Card>
+      </Card>
     </div>
+  );
+}
+
+function DisclaimerCard() {
+  return (
+    <div className="mt-4">
+      <Card
+        bg="#0a0820"
+        textColor="#c9bea0"
+        borderColor="#52423a"
+        shadowColor="#000000"
+        className="!m-0 font-sans"
+      >
+        <div className="p-4">
+          <p className="font-pixel text-cream mb-2 flex items-center gap-2 text-[13px] tracking-wider font-bold">
+            <i className="pixelart-icons-font-info-box text-gold text-lg" aria-hidden />
+            おことわり
+          </p>
+          <p className="text-cream-dim/90 text-[11px] leading-relaxed">
+            本サイトは個人が運営する非公式・非営利のジョークツールであり、株式会社スクウェア・エニックスおよび「ドラゴンクエスト」シリーズの公式とは一切関係ありません。著作権・商標その他の問題のあるご指摘をいただいた場合は、速やかに対応・該当箇所の削除をいたします。下記までご連絡ください。
+          </p>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            <Button
+              type="button"
+              onClick={() =>
+                window.open(X_PROFILE_URL, "_blank", "noopener,noreferrer")
+              }
+              bg="#08111e"
+              textColor="#dec292"
+              shadow="#0a0820"
+              borderColor="#52423a"
+              className="!m-0 inline-flex min-w-[200px] items-center justify-center gap-2 px-5 text-xs font-pixel tracking-wider"
+            >
+              <span
+                className="inline-flex h-[28px] shrink-0 items-center justify-center"
+                aria-hidden
+              >
+                <XLogo />
+              </span>
+              開発者 @toyoshima_dev
+            </Button>
+            <a
+              href={`mailto:${SUPPORT_EMAIL}`}
+              className="font-pixel text-cream-dim hover:text-cream inline-flex items-center gap-2 text-[11px] tracking-wider underline-offset-4 hover:underline"
+            >
+              <i className="pixelart-icons-font-mail text-gold text-base" aria-hidden />
+              {SUPPORT_EMAIL}
+            </a>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function XLogo() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden
+      fill="currentColor"
+      className="inline-block h-3.5 w-3.5 align-middle"
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
   );
 }
 

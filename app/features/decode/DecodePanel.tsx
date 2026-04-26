@@ -28,10 +28,7 @@ export function DecodePanel() {
 
   return (
     <div className="space-y-5">
-      <ParchmentCard
-        title="呪文をURLに戻す"
-        ribbonColor="purple"
-      >
+      <ParchmentCard title="呪文をURLに戻す">
         <label className="block">
           <span className="text-ink mb-1.5 flex items-center gap-1 text-sm font-bold">
             <i className="pixelart-icons-font-edit text-lg" aria-hidden />
@@ -52,14 +49,16 @@ export function DecodePanel() {
             type="button"
             onClick={onUnseal}
             disabled={!spell.trim()}
-            bg="#4a2e6b"
+            bg="#112664"
             textColor="#f3ead0"
             shadow="#0a0820"
-            borderColor="#f0c860"
+            borderColor="#2b2327"
+            style={{ backgroundImage: "linear-gradient(180deg, #163283 0%, #112664 100%)" }}
             className="!m-0 inline-flex items-center gap-4 font-pixel text-base tracking-[0.2em] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <i className="pixelart-icons-font-key text-gold text-xl" aria-hidden />
-            呪文を解読する
+            <i className="pixelart-icons-font-lock-open text-gold text-xl" aria-hidden />
+            <span className="relative top-[-2px]">呪文を解読する</span>
+            <i className="pixelart-icons-font-lock-open text-gold text-xl" aria-hidden />
           </Button>
         </div>
         <ErrorBanner kind={errorKind} />
@@ -69,33 +68,34 @@ export function DecodePanel() {
         <SectionCard
           title="復元されたURL"
           icon="pixelart-icons-font-link"
-          trailing={
-            <div className="flex items-center gap-2">
-              <a
-                href={url}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="border-border bg-panel-3 text-cream hover:bg-panel-2 inline-flex items-center gap-1 rounded border-2 px-3 py-1 text-xs transition-colors"
-              >
-                <i
-                  className="pixelart-icons-font-external-link text-base"
-                  aria-hidden
-                />
-                開く
-              </a>
-              <CopyButton text={url} label="コピー" />
-            </div>
-          }
         >
           <TextArea
             value={url}
             readOnly
             rows={2}
-            bg="#1c1a52"
+            bg="#020509"
             textColor="#f3ead0"
-            borderColor="#5a5cb8"
+            borderColor="#52423a"
             className="!m-0 w-full"
           />
+          <div className="mt-4 flex flex-row items-center justify-center gap-5 sm:gap-8">
+            <Button
+              type="button"
+              onClick={() => window.open(url, "_blank", "noopener,noreferrer")}
+              bg="#08111e"
+              textColor="#dec292"
+              shadow="#0a0820"
+              borderColor="#52423a"
+              className="!m-0 inline-flex w-full max-w-[180px] flex-1 basis-0 items-center justify-center gap-2 px-1 text-sm font-pixel tracking-wider sm:px-3"
+            >
+              <i
+                className="pixelart-icons-font-external-link text-base"
+                aria-hidden
+              />
+              開く
+            </Button>
+            <CopyButton text={url} label="コピー" />
+          </div>
         </SectionCard>
       )}
     </div>

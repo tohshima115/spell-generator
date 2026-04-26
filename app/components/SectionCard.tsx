@@ -22,7 +22,7 @@ export function SectionCard({
       textColor="#f3ead0"
       borderColor="#f0c860"
       shadowColor="#000000"
-      className="!m-0 font-sans"
+      className="!m-0 font-pixel"
     >
       <header className="flex items-center gap-2 px-3 py-2 border-b-2 border-gold/40">
         <i className={`${icon} text-gold text-lg`} aria-hidden />
