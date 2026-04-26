@@ -38,6 +38,8 @@ export function DecodePanel() {
             placeholder="ここに呪文を入力...（ひらがなで入力してください）"
             value={spell}
             onChange={(e) => setSpell(e.target.value)}
+            autoComplete="off"
+            spellCheck={false}
             bg="#fcfaf5"
             textColor="#4a3520"
             borderColor="#d4c6a8"
@@ -73,6 +75,7 @@ export function DecodePanel() {
             value={url}
             readOnly
             rows={2}
+            autoComplete="off"
             bg="#020509"
             textColor="#f3ead0"
             borderColor="#52423a"

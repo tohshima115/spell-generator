@@ -40,6 +40,8 @@ export function EncodePanel() {
             placeholder="https://example.com/..."
             value={url}
             onChange={(e) => setUrl(e.target.value)}
+            autoComplete="off"
+            spellCheck={false}
             bg="#fcfaf5"
             textColor="#4a3520"
             borderColor="#d4c6a8"
@@ -70,29 +72,28 @@ export function EncodePanel() {
         <ErrorBanner kind={errorKind} context="encode" />
       </ParchmentCard>
 
-      <SectionCard
-        title="生成された呪文"
-        icon="pixelart-icons-font-book-open"
-      >
-        <TextArea
-          value={result?.spell ?? ""}
-          placeholder="ここに呪文が表示されます"
-          readOnly
-          rows={5}
-          bg="#020509"
-          textColor="#f3ead0"
-          borderColor="#52423a"
-          className="!m-0 w-full font-pixel text-lg tracking-[0.2em]"
-          style={{ resize: "none" }}
-        />
-
-        {result ? (
+      {result && (
+        <SectionCard
+          title="生成された呪文"
+          icon="pixelart-icons-font-book-open"
+        >
+          <TextArea
+            value={result.spell}
+            readOnly
+            rows={5}
+            autoComplete="off"
+            bg="#020509"
+            textColor="#f3ead0"
+            borderColor="#52423a"
+            className="!m-0 w-full font-pixel text-lg tracking-[0.2em]"
+            style={{ resize: "none" }}
+          />
           <div className="mt-4 flex flex-row items-center justify-center gap-5 sm:gap-8">
             <ShareXButton spell={result.spell} />
             <CopyButton text={result.spell} label="コピー" />
           </div>
-        ) : null}
-      </SectionCard>
+        </SectionCard>
+      )}
     </div>
   );
 }
